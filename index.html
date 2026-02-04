@@ -21,7 +21,7 @@
     padding: 25px;
     border-radius: 20px;
     width: 90%;
-    max-width: 400px;
+    max-width: 420px;
     text-align: center;
     box-shadow: 0 15px 40px rgba(0,0,0,0.2);
     position: relative;
@@ -35,6 +35,14 @@
 
   h1 {
     font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    position: relative;
   }
 
   button {
@@ -43,7 +51,6 @@
     border-radius: 30px;
     border: none;
     cursor: pointer;
-    margin: 10px;
     transition: all 0.3s ease;
   }
 
@@ -54,13 +61,12 @@
 
   #noBtn {
     background: #eee;
-    position: absolute;
   }
 
   .quote {
+    margin-top: 15px;
     font-style: italic;
     color: #ff4d6d;
-    margin-top: 15px;
     display: none;
   }
 
@@ -78,17 +84,21 @@
 <canvas id="confetti"></canvas>
 
 <div class="container" id="app">
-  <!-- 🔁 REPLACE THIS GIF -->
+  <!-- CHANGE GIF IF YOU WANT -->
   <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
 
   <h1>Sunita 💖, can I borrow you for this Valentine?</h1>
 
-  <button id="yesBtn">Yes</button>
-  <button id="noBtn">No</button>
+  <div class="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
 
-  <div class="quote" id="quote">“I want to take a risk.”</div>
+  <div class="quote" id="quote">
+    “I want to take a risk.”
+  </div>
 
-  <!-- 🔊 Sound -->
+  <!-- SWEET NO SOUND -->
   <audio id="noSound" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-click-tone-1112.mp3"></audio>
 </div>
 
@@ -98,7 +108,7 @@ const noTexts = [
   "Are you sure?",
   "Do you really want to do this?",
   "Last chance. You really don't want?",
-  "My little heart is breaking. Still no?",
+  "My little heart is quite breaking. Still your answer is no?",
   "Asking again. Still no?",
   "I'll make a special maggie for you in this cold night. Still no?"
 ];
@@ -112,30 +122,16 @@ const quote = document.getElementById("quote");
 const app = document.getElementById("app");
 const noSound = document.getElementById("noSound");
 
-function moveNoButton() {
-  const container = document.querySelector(".container");
-  const rect = container.getBoundingClientRect();
-
-  const offsetX = Math.random() * 80 - 40; // small left/right move
-  const offsetY = Math.random() * 40 - 20; // small up/down move
-
-  noBtn.style.left = `${rect.width / 2 + offsetX}px`;
-  noBtn.style.top = `${rect.height / 2 + offsetY}px`;
-}
-
-
-moveNoButton();
-
 noBtn.addEventListener("click", () => {
   noSound.play();
 
   step++;
-  scale += 0.25;
+  scale += 0.45; // faster growth
   yesBtn.style.transform = `scale(${scale})`;
 
   if (step < noTexts.length) {
     noBtn.textContent = noTexts[step];
-    moveNoButton();
+    wiggleNo();
   }
 
   if (step === noTexts.length - 1) {
@@ -144,24 +140,30 @@ noBtn.addEventListener("click", () => {
   }
 });
 
+function wiggleNo() {
+  const x = Math.random() * 60 - 30;
+  const y = Math.random() * 30 - 15;
+  noBtn.style.transform = `translate(${x}px, ${y}px)`;
+}
+
 yesBtn.addEventListener("click", () => {
   startConfetti();
 
-app.innerHTML = `
-  <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
-  <h1>Thank you, Sunita ❤️</h1>
-  <p>I'll be there for picking you up.</p>
-`;
+  app.innerHTML = `
+    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+    <h1>Thank you, Sunita ❤️</h1>
+    <p>I'll be there for picking you up.</p>
+  `;
 });
 
-/* 🎉 Confetti */
+/* CONFETTI */
 function startConfetti() {
   const canvas = document.getElementById("confetti");
   const ctx = canvas.getContext("2d");
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 
-  const confetti = Array.from({length: 150}, () => ({
+  const confetti = Array.from({ length: 150 }, () => ({
     x: Math.random() * canvas.width,
     y: Math.random() * canvas.height - canvas.height,
     r: Math.random() * 6 + 2,
@@ -169,11 +171,11 @@ function startConfetti() {
   }));
 
   function draw() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     confetti.forEach(c => {
       ctx.beginPath();
       ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-      ctx.fillStyle = `hsl(${Math.random()*360},100%,50%)`;
+      ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
       ctx.fill();
       c.y += c.d;
     });
