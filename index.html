@@ -21,10 +21,9 @@
     padding: 25px;
     border-radius: 20px;
     width: 90%;
-    max-width: 420px;
+    max-width: 440px;
     text-align: center;
     box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-    position: relative;
   }
 
   img {
@@ -34,6 +33,7 @@
 
   h1 {
     font-size: 22px;
+    margin-bottom: 15px;
   }
 
   .buttons {
@@ -62,7 +62,7 @@
   }
 
   .quote {
-    margin-top: 20px;
+    margin-top: 25px;
     font-style: italic;
     color: #ff4d6d;
     font-size: 18px;
@@ -93,7 +93,7 @@
   </div>
 
   <div class="quote" id="quote">
-    “I want to take a risk.”
+    “I’ll want to take a risk.”
   </div>
 
   <!-- Sounds -->
@@ -102,14 +102,15 @@
 </div>
 
 <script>
+/* ALL NO TEXTS YOU GAVE */
 const noTexts = [
   "No",
   "Are you sure?",
-  "Do you really want to do this?",
-  "Last chance. You really don't want?",
-  "My little heart is quite breaking. Still your answer is no?",
+  "Do u really want to do this?",
+  "Last chance. U really dont want?",
+  "My little heart is quite breaking. Still ur answer is no?",
   "Asking again. Still no?",
-  "I'll make a special maggie for you in this cold night. Still no?"
+  "I'll make a special maggie for u in this cold night. Still no?"
 ];
 
 let step = 0;
@@ -126,15 +127,17 @@ noBtn.addEventListener("click", () => {
   noSound.play();
 
   step++;
-  scale += 0.5; // YES grows faster
+  scale += 0.5;   // YES grows clearly
   yesBtn.style.transform = `scale(${scale})`;
 
   if (step < noTexts.length) {
     noBtn.textContent = noTexts[step];
   }
 
+  // Final stage: NO disappears, quote shows
   if (step === noTexts.length - 1) {
     noBtn.style.display = "none";
+    quote.style.display = "block";
   }
 });
 
@@ -146,13 +149,13 @@ yesBtn.addEventListener("click", () => {
     <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
     <h1>Thank you, Sunita ❤️</h1>
     <p>I'll be there for picking you up.</p>
-    <div class="quote" style="display:block; margin-top:20px;">
-      “I want to take a risk.”
+    <div class="quote" style="display:block; margin-top:25px;">
+      “I’ll want to take a risk.”
     </div>
   `;
 });
 
-/* Confetti */
+/* CONFETTI */
 function startConfetti() {
   const canvas = document.getElementById("confetti");
   const ctx = canvas.getContext("2d");
