@@ -29,20 +29,18 @@
 
   img {
     width: 200px;
-    max-width: 100%;
     margin-bottom: 15px;
   }
 
   h1 {
     font-size: 22px;
-    margin-bottom: 20px;
   }
 
   .buttons {
     display: flex;
     justify-content: center;
     gap: 15px;
-    position: relative;
+    margin-top: 20px;
   }
 
   button {
@@ -64,9 +62,10 @@
   }
 
   .quote {
-    margin-top: 15px;
+    margin-top: 20px;
     font-style: italic;
     color: #ff4d6d;
+    font-size: 18px;
     display: none;
   }
 
@@ -84,7 +83,6 @@
 <canvas id="confetti"></canvas>
 
 <div class="container" id="app">
-  <!-- CHANGE GIF IF YOU WANT -->
   <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
 
   <h1>Sunita 💖, can I borrow you for this Valentine?</h1>
@@ -98,8 +96,9 @@
     “I want to take a risk.”
   </div>
 
-  <!-- SWEET NO SOUND -->
+  <!-- Sounds -->
   <audio id="noSound" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-click-tone-1112.mp3"></audio>
+  <audio id="yesSound" src="https://assets.mixkit.co/sfx/preview/mixkit-magic-bling-902.mp3"></audio>
 </div>
 
 <script>
@@ -121,42 +120,39 @@ const yesBtn = document.getElementById("yesBtn");
 const quote = document.getElementById("quote");
 const app = document.getElementById("app");
 const noSound = document.getElementById("noSound");
+const yesSound = document.getElementById("yesSound");
 
 noBtn.addEventListener("click", () => {
   noSound.play();
 
   step++;
-  scale += 0.45; // faster growth
+  scale += 0.5; // YES grows faster
   yesBtn.style.transform = `scale(${scale})`;
 
   if (step < noTexts.length) {
     noBtn.textContent = noTexts[step];
-    wiggleNo();
   }
 
   if (step === noTexts.length - 1) {
     noBtn.style.display = "none";
-    quote.style.display = "block";
   }
 });
 
-function wiggleNo() {
-  const x = Math.random() * 60 - 30;
-  const y = Math.random() * 30 - 15;
-  noBtn.style.transform = `translate(${x}px, ${y}px)`;
-}
-
 yesBtn.addEventListener("click", () => {
+  yesSound.play();
   startConfetti();
 
   app.innerHTML = `
     <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
     <h1>Thank you, Sunita ❤️</h1>
     <p>I'll be there for picking you up.</p>
+    <div class="quote" style="display:block; margin-top:20px;">
+      “I want to take a risk.”
+    </div>
   `;
 });
 
-/* CONFETTI */
+/* Confetti */
 function startConfetti() {
   const canvas = document.getElementById("confetti");
   const ctx = canvas.getContext("2d");
@@ -175,7 +171,7 @@ function startConfetti() {
     confetti.forEach(c => {
       ctx.beginPath();
       ctx.arc(c.x, c.y, c.r, 0, Math.PI * 2);
-      ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+      ctx.fillStyle = `hsl(${Math.random() * 360},100%,50%)`;
       ctx.fill();
       c.y += c.d;
     });
