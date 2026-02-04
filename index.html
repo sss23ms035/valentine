@@ -81,7 +81,7 @@
   <!-- 🔁 REPLACE THIS GIF -->
   <img src="https://media.giphy.com/media/MDJ9IbxxvDUQM/giphy.gif">
 
-  <h1>Can I borrow you for this Valentine? 💝</h1>
+  <h1>Sunita 💖, can I borrow you for this Valentine?</h1>
 
   <button id="yesBtn">Yes</button>
   <button id="noBtn">No</button>
@@ -89,7 +89,7 @@
   <div class="quote" id="quote">“I want to take a risk.”</div>
 
   <!-- 🔊 Sound -->
-  <audio id="noSound" src="https://www.soundjay.com/buttons/sounds/button-10.mp3"></audio>
+  <audio id="noSound" src="https://assets.mixkit.co/sfx/preview/mixkit-soft-click-tone-1112.mp3"></audio>
 </div>
 
 <script>
@@ -113,11 +113,16 @@ const app = document.getElementById("app");
 const noSound = document.getElementById("noSound");
 
 function moveNoButton() {
-  const x = Math.random() * (window.innerWidth - 100);
-  const y = Math.random() * (window.innerHeight - 50);
-  noBtn.style.left = `${x}px`;
-  noBtn.style.top = `${y}px`;
+  const container = document.querySelector(".container");
+  const rect = container.getBoundingClientRect();
+
+  const offsetX = Math.random() * 80 - 40; // small left/right move
+  const offsetY = Math.random() * 40 - 20; // small up/down move
+
+  noBtn.style.left = `${rect.width / 2 + offsetX}px`;
+  noBtn.style.top = `${rect.height / 2 + offsetY}px`;
 }
+
 
 moveNoButton();
 
@@ -142,12 +147,11 @@ noBtn.addEventListener("click", () => {
 yesBtn.addEventListener("click", () => {
   startConfetti();
 
-  app.innerHTML = `
-    <!-- 🔁 FINAL GIF -->
-    <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
-    <h1>Thank you ❤️</h1>
-    <p>I'll be there for picking you up.</p>
-  `;
+app.innerHTML = `
+  <img src="https://media.giphy.com/media/l0MYt5jPR6QX5pnqM/giphy.gif">
+  <h1>Thank you, Sunita ❤️</h1>
+  <p>I'll be there for picking you up.</p>
+`;
 });
 
 /* 🎉 Confetti */
